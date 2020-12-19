@@ -4,18 +4,18 @@ export type OnDataAvailableHandler = (data: ArrayBuffer) => void;
 
 export class AudioRecorder {
 
-  private _cb: OnDataAvailableHandler;
+  private _callback: OnDataAvailableHandler;
 
   constructor() {
     if (!window["MediaRecorder"]) {
       throw Error("Does not support MediaRecorder API");
     }
 
-    this._cb = () => { };
+    this._callback = () => { };
   }
 
-  public onDataAvailable(onAudioAvailable: OnDataAvailableHandler) {
-    this._cb = onAudioAvailable;
+  public onDataAvailable(callback: OnDataAvailableHandler) {
+    this._callback = callback;
   }
 
   public async listen(): Promise<void> {
@@ -30,7 +30,7 @@ export class AudioRecorder {
   private startRecording(recorder: MediaRecorder) {
     recorder.ondataavailable = async (e) => {
       const data = await e.data.arrayBuffer() as ArrayBuffer;
-      this._cb(data);
+      this._callback(data);
     };
 
     recorder.start();

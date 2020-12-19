@@ -2,14 +2,14 @@ export type OnSongDetectedHandler = (songTitle: string) => void;
 
 export class AudioClipHandler {
 
-  private _cb: OnSongDetectedHandler;
+  private _callback: OnSongDetectedHandler;
 
   constructor() {
-    this._cb = () => { };
+    this._callback = () => { };
   }
 
-  public onSongDetected(onAudioAvailable: OnSongDetectedHandler) {
-    this._cb = onAudioAvailable;
+  public onSongDetected(callback: OnSongDetectedHandler) {
+    this._callback = callback;
   }
 
   public async handle(data: ArrayBuffer) {
@@ -20,7 +20,7 @@ export class AudioClipHandler {
       return;
     }
 
-    this._cb(title);
+    this._callback(title);
   }
 
   private async postData(url: string, data: ArrayBuffer) {
