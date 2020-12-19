@@ -6,6 +6,9 @@ import { ImageSelector } from "./js/ImageSelector";
 
 import { default as RemoteMatrixLedDriver, ArduinoDeviceAdapter, AblyTransport } from "@snakemode/matrix-driver";
 
+const songTitleH2 = document.getElementById("song") as HTMLElement;
+const startListeningButton = document.getElementById("button") as HTMLButtonElement;
+
 const recorder = new AudioRecorder();
 const handler = new AudioClipHandler();
 const imageSelector = new ImageSelector();
@@ -19,10 +22,9 @@ const ledDriver = new RemoteMatrixLedDriver({
 recorder.onDataAvailable(async (data) => { handler.handle(data); });
 
 handler.onSongDetected((songTitle) => {
-  document.getElementById("song").innerHTML = songTitle;
-
+  songTitleH2.innerHTML = songTitle;
   const imageFile = imageSelector.getImageKeyForSong(songTitle);
   ledDriver.image.set(`./images/${imageFile}.png`);
 });
 
-document.getElementById("button").onclick = () => { recorder.listen() };
+startListeningButton.addEventListener("click", () => { recorder.listen(); });
