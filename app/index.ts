@@ -1,4 +1,4 @@
-import Ably from "ably";
+import * as Ably from "ably";
 
 import { AudioClipHandler } from "./js/AudioClipHandler";
 import { AudioRecorder } from "./js/AudioRecorder";
